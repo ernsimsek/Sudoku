@@ -1,87 +1,93 @@
 # Sudoku Master
 
-A little space to think.
+A quiet, browser-based Sudoku game built with React and TypeScript. Choose a difficulty, work through the grid at your own pace, and return to a new daily puzzle each day.
 
-Sudoku Master is a browser-based Sudoku app built around a simple daily ritual: pick a puzzle, follow the clues, and enjoy finding the next number. Warm paper tones, sage accents, and a restrained interface keep the grid at the center of the experience.
+## Features
 
-## What you can do
+- Five difficulty levels: Easy, Medium, Hard, Expert, and Master
+- Daily puzzles generated from the current date
+- Pencil notes, undo, erase, and up to three hints per game
+- Keyboard navigation and number-pad input
+- Autosaved games, preferences, and personal statistics in browser storage
+- XP, levels, streaks, daily missions, and achievements
+- Light and dark themes, sound effects, and configurable board highlights
+- Responsive layout with reduced-motion support
 
-- Play generated puzzles across five difficulty levels: Easy, Medium, Hard, Expert, and Master.
-- Return to a date-seeded daily puzzle.
-- Add pencil notes, undo a move, erase a cell, or use one of three hints.
-- Navigate the grid with your keyboard or use the on-screen number pad.
-- Pause a game and continue later, with progress stored in your browser.
-- Track wins, solve times, streaks, XP, levels, daily missions, and achievements.
-- Choose a light or dark appearance and adjust sound, highlights, and timer preferences.
+> Progress is stored locally in your browser. It does not sync between devices, and clearing site data removes it. The leaderboard displays sample data and is not connected to a multiplayer service.
 
-## Run locally
+## Requirements
 
-Use Node.js 22.12+ and npm. No account, API key, environment file, or backend service is required.
+- Node.js 22.12 or newer
+- npm (included with Node.js)
 
-```sh
+No account, API key, environment file, or backend service is required.
+
+## Getting started
+
+```bash
+git clone https://github.com/ernsimsek/Sudoku.git
+cd Sudoku
 npm ci
 npm run dev
 ```
 
-Open the local URL printed by Vite, usually `http://localhost:5173`.
+Open the local URL printed by Vite, usually <http://localhost:5173>.
 
-## Build and validate
+## Available scripts
 
-```sh
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the local development server |
+| `npm run typecheck` | Check TypeScript types without emitting files |
+| `npm run build` | Create a production build in `dist/` |
+| `npm run preview` | Serve the production build locally |
+
+Before opening a pull request, run:
+
+```bash
+npm ci
+npm run typecheck
 npm run build
-npx tsc --noEmit
-npm run preview
 ```
 
-The production build is written to `dist/`. The Vite single-file plugin embeds the application JavaScript and CSS into `dist/index.html`. Serve the build using any static web host. The favicon and externally loaded fonts remain separate resources.
-
-There is currently no automated test suite. The TypeScript check and production build are the available command-line checks.
+There is currently no automated test suite.
 
 ## Keyboard controls
 
-Select a cell to get started.
-
 | Key | Action |
 | --- | --- |
-| Arrow keys | Move around the grid |
-| `1`–`9` | Enter a number or pencil note |
+| Arrow keys | Move the selected cell |
+| `1`–`9` | Enter a value or pencil note |
 | `N` | Toggle notes mode |
 | `Backspace`, `Delete`, or `0` | Erase the selected cell |
 | `Ctrl+Z` / `Cmd+Z` | Undo the previous move |
 
-Hints, pause, and other controls are available in the game interface.
+## Tech stack
 
-## Built with
+- React 19 and TypeScript
+- Vite 7 with Tailwind CSS 4
+- Zustand for game state and local persistence
+- Framer Motion for interface animations
 
-React 19 and TypeScript power the interface. Vite handles development and bundling, Zustand manages game state and persistence, and Framer Motion provides transitions. Styling combines Tailwind CSS 4 with custom CSS; A custom SVG icon set uses open corners, puzzle grids, and pencil marks throughout the interface.
+The Sudoku generator and game logic are in `src/lib/sudoku.ts`; persisted game state is managed in `src/store/gameStore.ts`.
 
-## Project map
+## Project structure
 
 ```text
 src/
-  components/
-    game/         Grid, number pad, game header, and completion dialog
-    ui/           Missions, achievement notifications, and XP feedback
-  lib/            Puzzle generation, sound, achievements, and XP rules
-  pages/          Home, game, daily puzzle, statistics, and settings
-  store/          Zustand game state and browser persistence
-  types/          Shared TypeScript models
-  index.css       Theme tokens, grid styles, and responsive home layout
-  App.tsx         Page switching and global interface
+├── components/  Game board, controls, and reusable interface components
+├── lib/         Sudoku generation, achievements, sound, and XP rules
+├── pages/       Landing, game, daily, statistics, and settings screens
+├── store/       Zustand game state and browser persistence
+├── types/       Shared TypeScript models
+├── App.tsx      Page switching and global interface
+└── index.css    Theme tokens, board styles, and responsive layout
 ```
 
-The puzzle engine lives in `src/lib/sudoku.ts`. It uses backtracking to create solved grids and checks solution counts while removing clues. The daily puzzle is derived from a date seed. Game actions, rewards, and saved state are coordinated in `src/store/gameStore.ts`.
+## Deployment
 
-## Your data
-
-Game progress, preferences, and statistics are stored in this browser's local storage under `sudoku-master-v2`. They are not synchronized between devices. Clearing site data removes your saved progress; private browsing may discard it when the session ends.
-
-The leaderboard currently uses sample data. It is a demonstration interface, not a live multiplayer ranking service. Theme options beyond light and dark currently share the dark appearance, and some settings are placeholders for future behavior.
-
-## Design direction
-
-The interface takes its cues from a puzzle notebook: warm off-white surfaces, forest and sage greens, fine rules, serif headlines, and a small grid mark. The home page keeps puzzle selection close at hand, with a daily puzzle and personal progress below it. Mobile layouts use compact difficulty rows and a bottom navigation bar. Reduced-motion preferences are respected by CSS animations and transitions.
+`npm run build` creates a static site in `dist/`. It can be hosted on any static web host. The Vite single-file plugin embeds the JavaScript and CSS in `dist/index.html`; the favicon and web fonts are loaded separately.
 
 ## Contributing
 
-Keep changes focused and describe the behavior they affect. Before submitting a change, run the production build and TypeScript check, then verify the relevant screen at desktop and mobile widths. For puzzle-engine changes, check that generated grids follow Sudoku rules and that puzzles retain a unique solution.
+Bug reports and focused improvements are welcome. Please include steps to reproduce bugs and describe the behavior a change affects. Run the type check and production build before submitting a pull request.
